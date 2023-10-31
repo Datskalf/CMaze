@@ -20,14 +20,6 @@
 #define END_SYMBOL "E"
 
 #pragma region Enumerators
-struct Tile {
-    unsigned char walls;
-
-    int fCost;
-    int gCost;
-    int hCost;
-};
-
 /*
  * The Direction enumerator makes tile indexing more intuitive.
  */
@@ -50,35 +42,22 @@ enum State {
 
 #pragma region Internal globals
 
-struct Tile* startTile;
-struct Tile* endTile;
-struct Tile** mazeState;
+unsigned char* startTile;
+unsigned char* endTile;
+unsigned char** mazeState;
 
 void mazeInit() {
-    mazeState = (struct Tile**) malloc(MAZE_WIDTH * sizeof(struct Tile*));
+    mazeState = (unsigned char**) malloc(MAZE_WIDTH * sizeof(unsigned char*));
 
     for (int i = 0; i < MAZE_WIDTH; i++) {
-        mazeState[i] = (struct Tile*) malloc(MAZE_HEIGHT * sizeof(struct Tile));
+        mazeState[i] = (unsigned char*) malloc(MAZE_HEIGHT * sizeof(unsigned char));
     }
 }
 
 #pragma endregion
 
 #pragma region Tile control API
-
-void calculateFCost(int x, int y) {
-    mazeState[x][y].fCost = mazeState[x][y].gCost + mazeState[x][y].hCost;
-}
-
 #pragma region Setters
-
-void setGCost(int x, int y, int cost) {
-    mazeState[x][y].gCost = cost;
-}
-
-void setHCost(int x, int y, int cost) {
-    mazeState[x][y].hCost = cost;
-}
 
 /*
  * Gets a tile, and sets one single wall state
@@ -89,8 +68,8 @@ void setTileWall(int x, int y, enum Direction direction, enum State state) {
         return;
     }
 
-    mazeState[x][y].walls &= ~(1 << direction); // Clear the wall state
-    mazeState[x][y].walls |= stateNorm << direction; // Set the wall state equal to the parameter
+    mazeState[x][y] &= ~(1 << direction); // Clear the wall state
+    mazeState[x][y] |= stateNorm << direction; // Set the wall state equal to the parameter
 }
 
 /*
@@ -106,20 +85,8 @@ void setAllTileWalls(int x, int y, enum State hasNorth, enum State hasEast, enum
 #pragma endregion
 #pragma region Getters
 
-int getFCost(int x, int y) {
-    return mazeState[x][y].fCost;
-}
-
-int getGCost(int x, int y) {
-   return mazeState[x][y].gCost;
-}
-
-int getHCost(int x, int y) {
-    return mazeState[x][y].hCost;
-}
-
 int getWall(int x, int y, enum Direction direction) {
-    return 1 & (mazeState[x][y].walls >> direction);
+    return 1 & (mazeState[x][y] >> direction);
 }
 
 int getWallCount(int x, int y) {
