@@ -2,9 +2,13 @@
  * This file utilizes a lot of bit-masking. I used the resource below to learn shorthands for extracting each bit value.
  * https://www.learn-c.org/en/Bitmasks
  *
- * Created: 2023-10-25 by som38
- * Last modified: 2023-10-30 by som38
- * Version: 1.1
+ * TODO:
+ * - Could start random branch from a random point, visited or not. If unvisited, make sure it ends on the path.
+ * - WIP: Could precalculate the eligibility for branching, reducing repeated calculations.
+ *
+ * @author Datskalf
+ * @version 1.1
+ * @date 2023-10-30
  */
 
 #include <stdio.h>
@@ -179,7 +183,7 @@ int getRandomBranchPoint(int* coordArr) {
 
 #pragma region Maze generation
 
-/*
+/**
  * Creates a blank maze with all walls filled in.
  * Once the blank is created, path generation is run.
  */
@@ -196,9 +200,12 @@ void populateMaze() {
 
 #pragma region Path Generation
 
-/*
+/**
  * Starting from the given coordinates, creates a random path until the head
  * cannot go anywhere, or hits the end tile.
+ *
+ * @param x The 0-indexed column of the tile.
+ * @param y The 0-indexed row of the tile.
  */
 void createPathSegment(int x, int y) {
     int validPaths;
@@ -264,7 +271,7 @@ void createPathSegment(int x, int y) {
     #endif
 }
 
-/*
+/**
  * Initially, creates a path from the start tile.
  * After this path, will create branches for as long as there exists valid branch points.
  *

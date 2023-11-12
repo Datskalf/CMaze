@@ -10,12 +10,12 @@
  * If you encounter any errors in my code, you are encouraged to attempt to fix it yourself.
  * If you can't be asked, you can e-mail me the problem, and I'll try to publish a fixed version.
  *
- *
- * Author: som38
- * Email: som38@aber.ac.uk
- * Version: 1.1
- * Last modified: 2023-10-30
  * License: GNU GPLv3 (https://www.gnu.org/licenses/gpl-3.0.html)
+ *
+ *
+ * @author Datskalf
+ * @version 1.2
+ * @date 2023-11-09
  */
 
 #include <stdio.h>
@@ -31,9 +31,21 @@ int RANDOM_BRANCH_LIMIT = 20;
 
 unsigned int seed;
 
-/*
+/**
  * The function allows the user to pass keyed arguments for width, height, and seed.
- * Making these keyed means the user themselves decide what values to set, and what should be left as default.
+ * Making these keyed means the user themselves decide what values to set, and what should be left as default.<br/><br/>
+ * The valid keys include:
+ * <ul>
+ *  <li>[-w, --width]: Sets the width of the maze in tiles.</li>
+ *  <li>[-h, --height]: Sets the height of the maze in tiles.</li>
+ *  <li>[-s, --seed]: Sets the seed used for the RNG generation.</li>
+ *  <li>[-o, --output]: Sets the stream or file to write the resulting maze to.</li>
+ *  <li>[-bl, --branch-limit]: Sets the branch limit used for maze generation.</li>
+ *  <li>[-c, -colour]: Enables coloured output.</li>
+ * </ul>
+ *
+ * @param argc An integer defining the item count of argv.
+ * @param argv An array of char* containing the arguments passed to the program.
  */
 void readParameters(int argc, char* argv[]) {
     for (int i = 1; i < argc - 1; i++) {
@@ -74,7 +86,13 @@ void readParameters(int argc, char* argv[]) {
     }
 }
 
-
+/**
+ * Program main entry point.
+ *
+ * @param argc An integer defining the item count of argv.
+ * @param argv An array of char* containing the arguments passed to the program.
+ * @return Exit code of the program.
+ */
 int main(int argc, char* argv[]) {
     #if DEBUG_LEVEL >= 2
     setvbuf(stdout, NULL, _IONBF, 0);

@@ -1,7 +1,7 @@
 /**
- * Created: 2023-10-25 by som38
- * Last modified: 2023-10-29 by som38
- * Version: 1.1
+ * @Author Datskalf
+ * @version 1.1
+ * @date 2023-10-29
  */
 
 #ifndef MAZEGENERATOR_MAZE_H

@@ -1,7 +1,7 @@
 /**
- * Created: 2023-10-26 by som38
- * Last modified: 2023-10-27 by som38
- * Version: 1.0
+ * @author Datskalf
+ * @version 1.0
+ * @date 2023-10-27
  */
 
 #include <stdlib.h>
@@ -12,13 +12,16 @@
 #include <stdio.h>
 #endif
 
-/*
+/**
  * Creates a random integer ranging from 0 inclusive to maxValue exclusive.
  *
  * The function uses a do ... while loop to ensure an even distribution.
  * This loop could in theory loop forever, but this is a near 0 probability.
  *
  * Finally, the function returns the resulting number, scaled down to the requested range.
+ *
+ * @param maxValue The total amount of possible values the function may return.
+ * @return A random integer in range [0-maxValue>.
  */
 int randInt(int maxValue) {
     int limit = RAND_MAX - (RAND_MAX % maxValue);
