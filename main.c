@@ -34,6 +34,27 @@ int print_all_branches = 0;
 
 unsigned int seed;
 
+#if LINUX_INCREASE_STACK_SIZE == 1
+#include <sys/resource.h>
+
+void allocate_stack_size() {
+    const rlim_t kStackSize = LINUX_STACK_SIZE * 1024L * 1024L; // Convert the stack size from common.h to MB
+    struct rlimit rl;
+    int result;
+
+    result = getrlimit(RLIMIT_STACK, &rl);
+    if (result == 0) {
+        if (rl.rlim_cur < kStackSize) {
+            rl.rlim_cur = kStackSize;
+            result = setrlimit(RLIMIT_STACK, &rl);
+            if result != 0) {
+                fprintf(stderr, "setrlimit resutned result %d\n", result);
+            }
+        }
+    }
+}
+#endif
+
 /**
  * The function allows the user to pass keyed arguments for width, height, and seed.
  * Making these keyed means the user themselves decide what values to set, and what should be left as default.<br/><br/>
@@ -167,6 +188,10 @@ void readParameters(int argc, char* argv[]) {
 int main(int argc, char* argv[]) {
 #if DEBUG_LEVEL >= 1
     setvbuf(stdout, NULL, _IONBF, 0);
+#endif
+
+#if LINUX_INCREASE_STACK_SIZE == 1
+    allocate_stack_size();
 #endif
 
     set_stream(stdout);
